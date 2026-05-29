@@ -14,6 +14,7 @@ public class Track {
     private int year;
     private String genre;
     private int duration;
+    private String album;
 
     /**
      * @brief Inizializza una nuova traccia musicale. Sebbene il costruttore sia
@@ -27,13 +28,15 @@ public class Track {
      * @param year     Anno di pubblicazione
      * @param genre    genere musicale
      * @param duration durata fisica del brano espressa in secondi
+     * @param album    Album di appartenenza del brano
      */
-    public Track(String title, String author, int year, String genre, int duration) {
+    public Track(String title, String author, int year, String genre, int duration, String album) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.year = year;
         this.duration = duration;
+        this.album = album;
     }
 
     // Getter e setter
@@ -57,6 +60,10 @@ public class Track {
         return this.duration;
     }
 
+    public String getAlbum() {
+        return this.album;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -77,13 +84,17 @@ public class Track {
         this.duration = duration;
     }
 
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
     /**
      * @brief Restituisce una rappresentazione formattata del brano
      * @return String: la rappresentazione del brano
      */
     @Override
     public String toString() {
-        return title + " - " + author + "( " + year + ")" + "-" + genre + "(" + duration + "s )";
+        return title + " - " + author + "( " + year + ")" + "-" + genre + "(" + duration + "s ), " + album;
     }
 
 }

@@ -27,6 +27,8 @@ public class AddTrackController {
     private TextField txtDuration;
     @FXML
     private TextField txtYear;
+    @FXML
+    private TextField txtAlbum;
 
     @FXML
     private Button btnDelete;
@@ -68,6 +70,7 @@ public class AddTrackController {
             String title = txtTitle.getText();
             String author = txtAuthor.getText();
             String genre = txtGenre.getText();
+            String album = txtAlbum.getText();
 
             int duration = 0;
             if (txtDuration.getText() != null && !txtDuration.getText().isEmpty()) {
@@ -77,7 +80,7 @@ public class AddTrackController {
             if (txtYear.getText() != null && !txtYear.getText().isEmpty()) {
                 year = Integer.parseInt(txtYear.getText());
             }
-            Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration);
+            Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration, album);
             if (mainController != null) {
                 mainController.addTrackMainTable(newTrack);
             }
