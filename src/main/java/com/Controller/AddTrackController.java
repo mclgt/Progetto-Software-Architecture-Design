@@ -120,6 +120,13 @@ public class AddTrackController implements ITrackImporter {
         }
     }
 
+    /**
+     * @brief Mostra il FileChooser nativo del sistema operativo filtrato per file .mp3 e .wav.
+     * Inizia la navigazione dalla directory "Home" dell'utente.
+     *
+     * @param ownerWindow Finestra chiamante (blocca l'interazione sottostante finché non si chiude).
+     * @return File Il file selezionato, oppure null se l'azione viene annullata.
+     */
     @Override
     public File selectAudioFile(Window ownerWindow) {
         FileChooser fileChooser = new FileChooser();
