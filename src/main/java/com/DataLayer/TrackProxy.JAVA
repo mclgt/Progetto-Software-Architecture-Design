@@ -2,9 +2,11 @@ package com.DataLayer;
 
 /**
  * @brief Implementazione del pattern Proxy per Lazy Loading dei file audio.
- * Mantiene un riferimento al percorso del file, ma ritarda l'istanziazione
- * dell'oggetto pesante (RealTrack) e il caricamento in RAM solo al momento
- * dell'effettiva riproduzione del brano.
+ *        Mantiene un riferimento al percorso del file, ma ritarda
+ *        l'istanziazione
+ *        dell'oggetto pesante (RealTrack) e il caricamento in RAM solo al
+ *        momento
+ *        dell'effettiva riproduzione del brano.
  *
  * @see DataLayer.IAudioTrack
  */
@@ -14,20 +16,21 @@ public class TrackProxy implements IAudioTrack {
 
     /**
      * @brief Costruisce il Proxy fornendo solo il percorso del file.
-     * Non esegue alcun caricamento in memoria.
+     *        Non esegue alcun caricamento in memoria.
      *
      * @param filePath Il percorso del file audio (es. .wav o .mp3).
      */
-    public TrackProxy(String filePath){
+    public TrackProxy(String filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * @brief Instanzia la classe RealTrack e carica il file in memoria solo se non è già stato fatto.
+     * @brief Instanzia la classe RealTrack e carica il file in memoria solo se non
+     *        è già stato fatto.
      */
     @Override
     public void load() {
-        if(realTrack == null){
+        if (realTrack == null) {
             realTrack = new RealTrack(filePath);
             realTrack.load();
         }
@@ -35,7 +38,8 @@ public class TrackProxy implements IAudioTrack {
 
     /**
      * @brief Delega l'avvio della riproduzione alla traccia reale.
-     * Assicura che la traccia venga caricata tramite load() prima di suonare.
+     *        Assicura che la traccia venga caricata tramite load() prima di
+     *        suonare.
      */
     @Override
     public void startPlayback() {
@@ -44,7 +48,8 @@ public class TrackProxy implements IAudioTrack {
     }
 
     /**
-     * @brief Delega l'interruzione della riproduzione alla traccia reale, se questa esiste.
+     * @brief Delega l'interruzione della riproduzione alla traccia reale, se questa
+     *        esiste.
      */
     @Override
     public void stopPlayback() {
@@ -59,7 +64,7 @@ public class TrackProxy implements IAudioTrack {
      */
     @Override
     public boolean isPlaying() {
-        if(realTrack != null){
+        if (realTrack != null) {
             return realTrack.isPlaying();
         }
         return false;
