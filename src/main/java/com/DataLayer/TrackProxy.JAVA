@@ -59,6 +59,9 @@ public class TrackProxy implements IAudioTrack {
      */
     @Override
     public boolean isPlaying() {
-        return realTrack != null && realTrack.isPlaying();
+        if(realTrack != null){
+            return realTrack.isPlaying();
+        }
+        return false;
     }
 }

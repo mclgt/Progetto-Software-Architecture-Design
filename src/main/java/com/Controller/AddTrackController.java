@@ -1,10 +1,16 @@
 package com.Controller;
 
 import com.Model.Track;
+
+import java.io.File;
+
 import com.Factory.TrackFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,7 +22,7 @@ import javafx.scene.control.TextField;
  *        la correttezza e usa la Factory per creare il nuovo oggetto Track.
  */
 
-public class AddTrackController {
+public class AddTrackController implements ITrackImporter {
     @FXML
     private TextField txtTitle;
     @FXML
@@ -29,6 +35,8 @@ public class AddTrackController {
     private TextField txtYear;
     @FXML
     private TextField txtAlbum;
+    @FXML
+    private TextField txtFilePath;
 
     @FXML
     private Button btnDelete;
@@ -71,6 +79,7 @@ public class AddTrackController {
             String author = txtAuthor.getText();
             String genre = txtGenre.getText();
             String album = txtAlbum.getText();
+            String filePath = txtFilePath.getText();
 
             int duration = 0;
             if (txtDuration.getText() != null && !txtDuration.getText().isEmpty()) {
@@ -80,7 +89,7 @@ public class AddTrackController {
             if (txtYear.getText() != null && !txtYear.getText().isEmpty()) {
                 year = Integer.parseInt(txtYear.getText());
             }
-            Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration, album);
+            Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration, album, filePath);
             if (mainController != null) {
                 mainController.addTrackMainTable(newTrack);
             }
@@ -92,6 +101,35 @@ public class AddTrackController {
         } catch (IllegalArgumentException ex) {
             viewError("Dati non vallidi", ex.getMessage());
         }
+    }
+
+    /**
+     * @brief Apre il FileChooser e, se viene selezionato un file, 
+     *        ne inserisce il percorso all'interno della casella di testo.
+     * @param event evento generato dalla pressione del pulsante
+     */
+    @FXML
+    public void handleSelectFile(ActionEvent event) {
+        //Recupera la finestra attuale
+        Window currentWindow = ((Node) event.getSource()).getScene().getWindow();
+
+        File selectedFile = selectAudioFile(currentWindow);
+
+        if (selectedFile != null) {
+            txtFilePath.setText(selectedFile.getAbsolutePath());
+        }
+    }
+
+    @Override
+    public File selectAudioFile(Window ownerWindow) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Importa Brano Audio");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+        FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("File Audio (*.mp3, *wav)", "*.mp3", "*.wav");
+        fileChooser.getExtensionFilters().add(audioFilter);
+
+        return fileChooser.showOpenDialog(ownerWindow);
     }
 
     /**
