@@ -83,7 +83,8 @@ public class AddTrackController implements ITrackImporter {
 
             int duration = 0;
             if (txtDuration.getText() != null && !txtDuration.getText().isEmpty()) {
-                duration = Integer.parseInt(txtDuration.getText());
+                String durationTmp = txtDuration.getText();
+                duration = convertSeconds(durationTmp);
             }
             int year = 0;
             if (txtYear.getText() != null && !txtYear.getText().isEmpty()) {
@@ -160,6 +161,19 @@ public class AddTrackController implements ITrackImporter {
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+
+    private int convertSeconds(String time){
+        String[] parts = time.split("[:.,\\- ]+");
+
+        if(parts.length == 1){
+            return Integer.parseInt(parts[0]);
+        }
+
+        int minuts = Integer.parseInt(parts[0].trim());
+        int seconds = Integer.parseInt(parts[1].trim());
+
+        return (minuts * 60) + seconds;
     }
 
 }

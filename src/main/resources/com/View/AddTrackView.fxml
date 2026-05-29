@@ -53,7 +53,7 @@
                </children>
             </HBox>
             <Label text="Durata: " GridPane.rowIndex="6" />
-            <TextField fx:id="txtDuration" promptText="Es. hh:mm:ss" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="txtDuration" promptText="Es. mm:ss" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label text="Anno:" GridPane.rowIndex="3" />
             <TextField fx:id="txtYear" promptText="Es.2022" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Album" GridPane.rowIndex="4" />
