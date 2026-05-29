@@ -1,5 +1,7 @@
 package com.Model;
 
+import com.DataLayer.IAudioTrack;
+
 /**
  * @brief Rappresenta l'entità del singolo brano musicale.
  *        Modella i dati relativi ad una traccia così come definiti dalla user
@@ -15,6 +17,9 @@ public class Track {
     private String genre;
     private int duration;
     private String album;
+    private String filePath;
+
+    private IAudioTrack audioSource;
 
     /**
      * @brief Inizializza una nuova traccia musicale. Sebbene il costruttore sia
@@ -29,14 +34,16 @@ public class Track {
      * @param genre    genere musicale
      * @param duration durata fisica del brano espressa in secondi
      * @param album    Album di appartenenza del brano
+     * @param filePath Percorso del file audio da inserire
      */
-    public Track(String title, String author, int year, String genre, int duration, String album) {
+    public Track(String title, String author, int year, String genre, int duration, String album, String filePath) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.year = year;
         this.duration = duration;
         this.album = album;
+        this.filePath = filePath;
     }
 
     // Getter e setter
@@ -64,6 +71,10 @@ public class Track {
         return this.album;
     }
 
+    public String getFilePath(){
+        return this.filePath;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -88,6 +99,26 @@ public class Track {
         this.album = album;
     }
 
+    public void setFilePath(String filePath){
+        this.filePath = filePath;
+    }
+
+    /**
+     * @brief Imposta la sorgente audio (Proxy) associata a questo brano.
+     * @param audioSource L'oggetto che implementa la gestione audio.
+     */
+    public void setAudioSource(IAudioTrack audioSource){
+        this.audioSource = audioSource;
+    }
+
+    /**
+     * @brief Restituisce la sorgente audio per avviare o fermare la riproduzione.
+     * @return IAudioTrack L'interfaccia per controllare l'audio.
+     */
+    public IAudioTrack getAudioSource(){
+        return this.audioSource;
+    }
+
     /**
      * @brief Restituisce una rappresentazione formattata del brano
      * @return String: la rappresentazione del brano
@@ -96,5 +127,4 @@ public class Track {
     public String toString() {
         return title + " - " + author + "( " + year + ")" + "-" + genre + "(" + duration + "s ), " + album;
     }
-
 }
