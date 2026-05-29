@@ -64,6 +64,6 @@ public class Library {
      * @return Un valore intero che rappresenta la dimensione corrente della collezione (dimensione della lista).
      */
     public int getTracksCount() {
-        return library.size();
+        return this.library.size();
     }
 }
