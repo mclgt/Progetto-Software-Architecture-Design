@@ -1,6 +1,7 @@
 package com.Controller;
 
 import com.Model.Track;
+import com.DataLayer.TrackProxy;
 
 import java.io.File;
 
@@ -91,6 +92,7 @@ public class AddTrackController implements ITrackImporter {
                 year = Integer.parseInt(txtYear.getText());
             }
             Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration, album, filePath);
+            newTrack.setAudioSource(new TrackProxy(filePath));
             if (mainController != null) {
                 mainController.addTrackMainTable(newTrack);
             }
