@@ -3,9 +3,6 @@ package com.Controller;
 import java.io.IOException;
 import java.util.Optional;
 
-import java.io.IOException;
-import java.util.Optional;
-
 import com.Model.Track;
 import com.State.PlayerContext;
 import com.Strategy.PlaybackContext;
@@ -145,6 +142,14 @@ public class MainController {
             alert.showAndWait();
             return;
         }
+        if (playerContext.isPlaying() && selected == playerContext.getCurrentTrack()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Già in riproduzione");
+            alert.setHeaderText(null);
+            alert.setContentText("Sto già eseguendo questo brano.");
+            alert.showAndWait();
+            return;
+        }
         currentTrack = selected;
         playerContext.play(currentTrack);
         updateNowPlayingLabel();
@@ -161,9 +166,7 @@ public class MainController {
         if (currentTrack == null)
             return;
         playerContext.next(trackList, currentTrack);
-        if (playerContext.isPlaying()) {
-            currentTrack = playerContext.getCurrentTrack();
-        }
+        currentTrack = playerContext.getCurrentTrack();
         updateNowPlayingLabel();
     }
 
@@ -172,17 +175,16 @@ public class MainController {
         if (currentTrack == null)
             return;
         playerContext.previous(trackList, currentTrack);
-        if (playerContext.isPlaying()) {
-            currentTrack = playerContext.getCurrentTrack();
-        }
+        currentTrack = playerContext.getCurrentTrack();
         updateNowPlayingLabel();
     }
 
     private void updateNowPlayingLabel() {
-        if (playerContext.isPlaying() && currentTrack != null) {
-            lblNowPlaying.setText("▶  " + currentTrack.getTitle() + "  —  " + currentTrack.getAuthor());
-        } else if (playerContext.isPaused() && currentTrack != null) {
-            lblNowPlaying.setText("⏸  " + currentTrack.getTitle() + "  —  " + currentTrack.getAuthor());
+        Track track = playerContext.getCurrentTrack();
+        if (playerContext.isPlaying() && track != null) {
+            lblNowPlaying.setText("▶  " + track.getTitle() + "  —  " + track.getAuthor());
+        } else if (playerContext.isPaused() && track != null) {
+            lblNowPlaying.setText("⏸  " + track.getTitle() + "  —  " + track.getAuthor());
         } else {
             lblNowPlaying.setText("Nessuna traccia in riproduzione");
         }
