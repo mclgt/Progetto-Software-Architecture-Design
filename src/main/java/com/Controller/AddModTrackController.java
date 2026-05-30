@@ -77,7 +77,7 @@ public class AddModTrackController implements ITrackImporter {
             txtGenre.setText(track.getGenre());
             txtFilePath.setText(track.getFilePath());
             txtYear.setText(String.valueOf(track.getYear()));
-            txtDuration.setText((String.valueOf(track.getDuration())));
+            txtDuration.setText((String.valueOf(track.getFormattedDuration())));
         } else {
             this.isEditMode = false;
         }
