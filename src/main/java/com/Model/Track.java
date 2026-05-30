@@ -165,6 +165,16 @@ public class Track {
     }
 
     /**
+     * @brief Restituisce la durata del brano formattata come "MM:SS".
+     */
+    public String getFormattedDuration() {
+        int totalSeconds = getDuration();
+        int min = totalSeconds / 60;
+        int sec = totalSeconds % 60;
+        return String.format("%02d:%02d", min, sec);
+    }
+
+    /**
      * @brief Restituisce una rappresentazione formattata del brano
      * @return String: la rappresentazione del brano
      */
