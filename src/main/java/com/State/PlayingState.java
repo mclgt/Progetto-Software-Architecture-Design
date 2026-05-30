@@ -13,7 +13,14 @@ public class PlayingState implements IPlayerState {
 
     @Override
     public void play(Track track) {
+        Track previous = context.getCurrentTrack();
+        if (previous != null && previous.getAudioSource() != null) {
+            previous.getAudioSource().stopPlayback();
+        }
         context.setCurrentTrack(track);
+        if (track.getAudioSource() != null) {
+            track.getAudioSource().startPlayback(); // lazy load: RealTrack creato solo qui
+        }
         System.out.println("Playing: " + track.getTitle());
     }
 
