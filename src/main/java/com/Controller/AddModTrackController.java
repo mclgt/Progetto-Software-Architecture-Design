@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
  *        modificare l'oggetto Track.
  */
 
-public class Add_ModTrackController implements ITrackImporter {
+public class AddModTrackController implements ITrackImporter {
     @FXML
     private TextField txtTitle;
     @FXML
