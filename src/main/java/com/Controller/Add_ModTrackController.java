@@ -17,10 +17,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 /**
- * @brief Controller per la finestra di inserimento di un nuovo brano.
+ * @brief Controller unico per l'Aggiunta e la Modifica di un brano.
  *        Gestisce l'interazione dell'utente con il form per aggiungere una
- *        traccia. Raccoglie i dati dal form, ne verifica
- *        la correttezza e usa la Factory per creare il nuovo oggetto Track.
+ *        traccia o modificarla. Raccoglie i dati dal form, ne verifica
+ *        la correttezza e usa la Factory o i metodi della Traccia per creare o
+ *        modificare l'oggetto Track.
  */
 
 public class Add_ModTrackController implements ITrackImporter {
@@ -45,6 +46,7 @@ public class Add_ModTrackController implements ITrackImporter {
     private Button btnSave;
     private MainController mainController;
     private Track trackToModify;
+    /** @brief Flag per determinare la modalità del form: aggiunta o modifica */
     private boolean isEditMode = false;
 
     /**
@@ -56,6 +58,14 @@ public class Add_ModTrackController implements ITrackImporter {
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
+
+    /**
+     * @brief Consente di inizializzare il form in modalità "Aggiunta" o "Modifica"
+     *        Se l'oggetto track passato (oggetto selezionato) è non nullo, allora i
+     *        campi di testo si aggiornano con i valori della traccia selezionata.
+     *        Altrimenti, se non si selaziona alcun brano, i campi rimangono vuoti.
+     * @param track il brano selezionato, è null se si vuole aggiungere un brano
+     */
 
     public void setTrack(Track track) {
         this.trackToModify = track;
@@ -84,9 +94,11 @@ public class Add_ModTrackController implements ITrackImporter {
     }
 
     /**
-     * @brief Gestisce la procedura del salvataggio del brano, preleva le stringhe,
+     * @brief Gestisce la procedura del salvataggio del brano (sia nel caso di
+     *        Aggiunta che di Modifica), preleva le stringhe,
      *        controlla se anno e durata sono
-     *        inseriti correttamente e istanzia il brano se supera i controlli.
+     *        inseriti correttamente e istanzia il brano se supera i controlli di
+     *        validità.
      *        Inoltre, intercetta eventuali eccezioni legate
      *        all'input dell'utente.
      * @param e evento generata dalla pressione del pulsante
@@ -198,6 +210,13 @@ public class Add_ModTrackController implements ITrackImporter {
         alert.setContentText(msg);
         alert.showAndWait();
     }
+
+    /**
+     * @brief Converte una stringa rappresentante il tempo in secondi totali.
+     *        Suporta formati lineari o formati divisi da ":" o "." o "-"
+     * @param time stringa di tempo inserita dall'utente
+     * @return int I secondi totali calcolati
+     */
 
     private int convertSeconds(String time) {
         String[] parts = time.split("[:.,\\- ]+");

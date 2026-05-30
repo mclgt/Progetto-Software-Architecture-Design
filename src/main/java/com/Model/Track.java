@@ -6,10 +6,12 @@ import javafx.beans.property.*;
 /**
  * @brief Rappresenta l'entità del singolo brano musicale.
  *        Modella i dati relativi ad una traccia così come definiti dalla user
- *        story [US-1]
- *        Non contiene la logica di business completa.
+ *        story [US-1]. Utilizza le classi Property di JavaFX per consentire il
+ *        binding con l'interfaccia grafica.
  * 
- * @author Michela
+ *        Implementa dei controlli di validazione interni per evitare che si
+ *        violino le regole relative agli agttributi dell'oggetto.
+ * 
  */
 public class Track {
     private final StringProperty title = new SimpleStringProperty();
@@ -47,7 +49,7 @@ public class Track {
         setFilePath(filePath);
     }
 
-    // Getter e setter
+    // Getter e setter classici
     public String getTitle() {
         return title.get();
     }
@@ -110,8 +112,13 @@ public class Track {
     }
 
     public void setFilePath(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            throw new IllegalArgumentException("Il percorso 'File Audio' non può essere vuoto!");
+        }
         this.filePath.set(filePath);
     }
+
+    // getter per il binding grafico
 
     public StringProperty titleProperty() {
         return title;
