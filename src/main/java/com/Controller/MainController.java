@@ -93,7 +93,7 @@ public class MainController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/View/AddTrackView.fxml"));
             Parent p = fxmlLoader.load();
-            Add_ModTrackController controller = fxmlLoader.getController();
+            AddModTrackController controller = fxmlLoader.getController();
             controller.setMainController(this);
             Stage stage = new Stage();
             stage.setTitle("Aggiungi Nuovo Brano");
@@ -125,7 +125,7 @@ public class MainController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/View/ModifyTrackView.fxml"));
             Parent p = fxmlLoader.load();
-            Add_ModTrackController controller = fxmlLoader.getController();
+            AddModTrackController controller = fxmlLoader.getController();
             controller.setMainController(this);
             controller.setTrack(selectedTrack);
             Stage stage = new Stage();
@@ -199,9 +199,7 @@ public class MainController {
             lblAlbum.setText(t.getAlbum());
             lblGenre.setText(t.getGenre());
             lblYear.setText(t.getYear() == 0 ? "-" : String.valueOf(t.getYear()));
-            int min = t.getDuration() / 60;
-            int sec = t.getDuration() % 60;
-            lblDuration.setText(String.format("%d:%d", min, sec));
+            lblDuration.setText(t.getFormattedDuration());
         }
     }
 
