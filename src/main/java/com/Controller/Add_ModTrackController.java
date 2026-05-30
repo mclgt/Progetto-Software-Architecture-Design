@@ -4,6 +4,7 @@ import com.Model.Track;
 
 import java.io.File;
 
+import com.DataLayer.TrackProxy;
 import com.Factory.TrackFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import javafx.scene.control.TextField;
  *        la correttezza e usa la Factory per creare il nuovo oggetto Track.
  */
 
-public class AddTrackController implements ITrackImporter {
+public class Add_ModTrackController implements ITrackImporter {
     @FXML
     private TextField txtTitle;
     @FXML
@@ -43,6 +44,8 @@ public class AddTrackController implements ITrackImporter {
     @FXML
     private Button btnSave;
     private MainController mainController;
+    private Track trackToModify;
+    private boolean isEditMode = false;
 
     /**
      * @brief Imposta il riferimento al controller principale. Consente di far
@@ -52,6 +55,22 @@ public class AddTrackController implements ITrackImporter {
      */
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    public void setTrack(Track track) {
+        this.trackToModify = track;
+        if (track != null) {
+            this.isEditMode = true;
+            txtTitle.setText(track.getTitle());
+            txtAuthor.setText(track.getAuthor());
+            txtAlbum.setText(track.getAlbum());
+            txtGenre.setText(track.getGenre());
+            txtFilePath.setText(track.getFilePath());
+            txtYear.setText(String.valueOf(track.getYear()));
+            txtDuration.setText((String.valueOf(track.getDuration())));
+        } else {
+            this.isEditMode = false;
+        }
     }
 
     /**
@@ -90,12 +109,26 @@ public class AddTrackController implements ITrackImporter {
             if (txtYear.getText() != null && !txtYear.getText().isEmpty()) {
                 year = Integer.parseInt(txtYear.getText());
             }
-            Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration, album, filePath);
-            if (mainController != null) {
-                mainController.addTrackMainTable(newTrack);
+            if (isEditMode) {
+                trackToModify.setTitle(title);
+                trackToModify.setAuthor(author);
+                trackToModify.setAlbum(album);
+                trackToModify.setGenre(genre);
+                trackToModify.setYear(year);
+                trackToModify.setDuration(duration);
+
+                if (!filePath.equals(trackToModify.getFilePath())) {
+                    trackToModify.setFilePath(filePath);
+                    trackToModify.setAudioSource(new TrackProxy(filePath));
+                }
+
+            } else {
+                Track newTrack = TrackFactory.createTrack(title, author, year, genre, duration, album, filePath);
+                if (mainController != null) {
+                    mainController.addTrackMainTable(newTrack);
+                }
             }
             closeWindow();
-
         } catch (NumberFormatException ex) {
             viewError("Errore nell'inserimento dei dati numerici",
                     "Assicurarsi di aver inserito numeri nei campi 'Anno' e 'Durata'");
@@ -105,13 +138,13 @@ public class AddTrackController implements ITrackImporter {
     }
 
     /**
-     * @brief Apre il FileChooser e, se viene selezionato un file, 
+     * @brief Apre il FileChooser e, se viene selezionato un file,
      *        ne inserisce il percorso all'interno della casella di testo.
      * @param event evento generato dalla pressione del pulsante
      */
     @FXML
     public void handleSelectFile(ActionEvent event) {
-        //Recupera la finestra attuale
+        // Recupera la finestra attuale
         Window currentWindow = ((Node) event.getSource()).getScene().getWindow();
 
         File selectedFile = selectAudioFile(currentWindow);
@@ -122,10 +155,12 @@ public class AddTrackController implements ITrackImporter {
     }
 
     /**
-     * @brief Mostra il FileChooser nativo del sistema operativo filtrato per file .mp3 e .wav.
-     * Inizia la navigazione dalla directory "Home" dell'utente.
+     * @brief Mostra il FileChooser nativo del sistema operativo filtrato per file
+     *        .mp3 e .wav.
+     *        Inizia la navigazione dalla directory "Home" dell'utente.
      *
-     * @param ownerWindow Finestra chiamante (blocca l'interazione sottostante finché non si chiude).
+     * @param ownerWindow Finestra chiamante (blocca l'interazione sottostante
+     *                    finché non si chiude).
      * @return File Il file selezionato, oppure null se l'azione viene annullata.
      */
     @Override
@@ -134,7 +169,8 @@ public class AddTrackController implements ITrackImporter {
         fileChooser.setTitle("Importa Brano Audio");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
-        FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("File Audio (*.mp3, *wav)", "*.mp3", "*.wav");
+        FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("File Audio (*.mp3, *wav)", "*.mp3",
+                "*.wav");
         fileChooser.getExtensionFilters().add(audioFilter);
 
         return fileChooser.showOpenDialog(ownerWindow);
@@ -163,10 +199,10 @@ public class AddTrackController implements ITrackImporter {
         alert.showAndWait();
     }
 
-    private int convertSeconds(String time){
+    private int convertSeconds(String time) {
         String[] parts = time.split("[:.,\\- ]+");
 
-        if(parts.length == 1){
+        if (parts.length == 1) {
             return Integer.parseInt(parts[0]);
         }
 

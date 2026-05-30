@@ -13,8 +13,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import java.awt.event.MouseEvent;
 
 /**
  * @brief Controller principale dell'applicazione, gestisce la schermata
@@ -65,7 +67,7 @@ public class MainController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/View/AddTrackView.fxml"));
             Parent p = fxmlLoader.load();
-            AddTrackController controller = fxmlLoader.getController();
+            Add_ModTrackController controller = fxmlLoader.getController();
             controller.setMainController(this);
             Stage stage = new Stage();
             stage.setTitle("Aggiungi Nuovo Brano");
@@ -76,6 +78,39 @@ public class MainController {
         } catch (IOException ex) {
             System.err.print("Errore nel caricamento della finestra:" + ex.getMessage());
         }
+    }
+
+    @FXML
+    public void openModifyTrackView(ActionEvent ev) {
+        Track selectedTrack = trackTable.getSelectionModel().getSelectedItem();
+        if (selectedTrack == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nessuna selezione");
+            alert.setContentText("Seleziona una traccia dalla tabella da modificare.");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/View/ModifyTrackView.fxml"));
+            Parent p = fxmlLoader.load();
+            Add_ModTrackController controller = fxmlLoader.getController();
+            controller.setMainController(this);
+            controller.setTrack(selectedTrack);
+            Stage stage = new Stage();
+            stage.setTitle("Modifica Brano -" + selectedTrack.getTitle());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(p));
+            stage.showAndWait();
+            trackTable.getSelectionModel().clearSelection();
+
+        } catch (IOException ex) {
+            System.err.print("Errore nel caricamento della finestra:" + ex.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleBackgroundClick(MouseEvent event) {
+        trackTable.getSelectionModel().clearSelection();
     }
 
 }
