@@ -5,36 +5,20 @@ import java.util.List;
 
 public class StoppedState implements IPlayerState {
 
-    private PlayerContext context;
-
-    public StoppedState(PlayerContext context) {
-        this.context = context;
-    }
+    public StoppedState(PlayerContext context) {}
 
     @Override
-    public void play(Track track) {
-        context.setCurrentTrack(track);
-        System.out.println("Starting playback: " + track.getTitle());
-        context.setState(context.getPlayingState());
-    }
+    public void play(Track track) {}
 
     @Override
-    public void pause() {
-        System.out.println("Cannot pause: player is stopped.");
-    }
+    public void pause() {}
 
     @Override
-    public void stop() {
-        System.out.println("Already stopped.");
-    }
+    public void stop() {}
 
     @Override
-    public void next(List<Track> queue, Track current) {
-        System.out.println("Cannot skip: player is stopped.");
-    }
+    public void next(List<Track> queue, Track current) {}
 
     @Override
-    public void previous(List<Track> queue, Track current) {
-        System.out.println("Cannot go back: player is stopped.");
-    }
+    public void previous(List<Track> queue, Track current) {}
 }

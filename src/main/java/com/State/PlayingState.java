@@ -19,14 +19,10 @@ public class PlayingState implements IPlayerState {
 
     @Override
     public void pause() {
-        System.out.println("Pausing playback.");
-        context.setState(context.getPausedState());
     }
 
     @Override
     public void stop() {
-        System.out.println("Stopping playback.");
-        context.setState(context.getStoppedState());
     }
 
     @Override
@@ -52,5 +48,5 @@ public class PlayingState implements IPlayerState {
             stop();
         }
     }
-    
+
 }

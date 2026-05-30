@@ -7,9 +7,6 @@ import java.util.List;
 public class PlayerContext {
 
     private IPlayerState playingState;
-    private IPlayerState pausedState;
-    private IPlayerState stoppedState;
-
     private IPlayerState currentState;
 
     private PlaybackContext playbackContext;
@@ -18,9 +15,7 @@ public class PlayerContext {
     public PlayerContext(PlaybackContext playbackContext) {
         this.playbackContext = playbackContext;
         this.playingState = new PlayingState(this);
-        this.pausedState = new PausedState(this);
-        this.stoppedState = new StoppedState(this);
-        this.currentState = stoppedState;
+        this.currentState = playingState;
     }
 
     public void setState(IPlayerState state) {
@@ -29,14 +24,6 @@ public class PlayerContext {
 
     public IPlayerState getPlayingState() {
         return playingState;
-    }
-
-    public IPlayerState getPausedState() {
-        return pausedState;
-    }
-
-    public IPlayerState getStoppedState() {
-        return stoppedState;
     }
 
     public PlaybackContext getPlaybackContext() {
@@ -53,10 +40,6 @@ public class PlayerContext {
 
     public boolean isPlaying() {
         return currentState == playingState;
-    }
-
-    public boolean isPaused() {
-        return currentState == pausedState;
     }
 
     public void play(Track track) {
