@@ -58,7 +58,7 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
-                <Button fx:id="btnRemoveTrack" mnemonicParsing="false" text="Rimuovi Brano">
+                <Button fx:id="btnRemoveTrack" mnemonicParsing="false" onAction="#handleRemoveTrack" text="Rimuovi Brano">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
